@@ -2,6 +2,8 @@ import express from "express"
 import mongoose from "mongoose"
 import cors from "cors"
 import dotenv from "dotenv"
+import { postSignup } from "./controllers/user.js"
+import {getHealth} from "./controllers/health.js"
 dotenv.config()
 
 const app =express()
@@ -16,6 +18,8 @@ const connectDB = async()=>{
     }
 }
 connectDB()
+app.get("/",getHealth)
+app.post("/signup",postSignup);
 
 
 

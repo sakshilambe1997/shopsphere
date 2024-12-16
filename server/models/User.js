@@ -14,7 +14,7 @@ const userSchema = new Schema({
         unique:true
     },
     address:{
-        type:String
+        type:String,
     },
     role:{
         type:String,
@@ -29,4 +29,4 @@ const userSchema = new Schema({
 })
 
 const User = model("User",userSchema);
-export default User
+export default User 
