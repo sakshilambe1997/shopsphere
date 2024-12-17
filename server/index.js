@@ -2,7 +2,7 @@ import express from "express"
 import mongoose from "mongoose"
 import cors from "cors"
 import dotenv from "dotenv"
-import { postSignup } from "./controllers/user.js"
+import { postLogin, postSignup } from "./controllers/user.js"
 import {getHealth} from "./controllers/health.js"
 dotenv.config()
 
@@ -20,6 +20,7 @@ const connectDB = async()=>{
 connectDB()
 app.get("/",getHealth)
 app.post("/signup",postSignup);
+app.post("/login",postLogin)
 
 
 
