@@ -2,38 +2,18 @@ import express from "express"
 import mongoose from "mongoose"
 import cors from "cors"
 import dotenv from "dotenv"
+dotenv.config();
 import { postLogin, postSignup } from "./controllers/user.js"
 import {getHealth} from "./controllers/health.js"
-import jwt from "jsonwebtoken"
-dotenv.config()
+
+import { jwtVerifyMiddleware } from "./middlewares/auth.js";
+
 
 const app =express()
 app.use(express.json());
 app.use(cors());
 
-const jwtVerifyMiddleware= async(req,res,next)=>{
-    const jwtToken =req.headers.suthorization.split(" ")[1];
 
-    if(!jwtToken){
-        return res.status(401).json({
-            success:false,
-            message:"jwt token is missing"
-        })
-    }
-
-    try{
-        const decoded= await jwt.verify(jwtToken,process.env.JWT_SECRET);
-        req.user=decoded;
-        next();
-    }
-
-    catch(error){
-        return res.status(401).json({
-            success:false,
-            message:"Invalid jwt token"
-        })
-    }
-}
 
 const connectDB = async()=>{
     const conn = await mongoose.connect(process.env.MONGODB_URL);
