@@ -7,6 +7,7 @@ import { postLogin, postSignup } from "./controllers/user.js"
 import {getHealth} from "./controllers/health.js"
 
 import { jwtVerifyMiddleware } from "./middlewares/auth.js";
+import { postProducts } from "./controllers/product.js";
 
 
 const app =express()
@@ -27,25 +28,7 @@ app.get("/",getHealth)
 app.post("/signup",postSignup);
 app.post("/login",postLogin)
 
-app.post("/order", jwtVerifyMiddleware,(req,res)=>{
-    res.json({
-       success:true,
-    message:"Order placed successfully!!"
-    })
-})
-
-
-app.post("/payment", jwtVerifyMiddleware,(req,res)=>{
-    res.json({
-       success:true,
-    message:"Payment successfully!!"
-    })
-   
-})
-
-
-
-
+// Auth
 app.use("*",(req,res)=>{
     res.status(404).json({
         success:false,
@@ -54,6 +37,9 @@ app.use("*",(req,res)=>{
     })
 })
 
+//products
+
+app.post("/products",postProducts)
 
 const PORT = process.env.PORT || 5000;
 
