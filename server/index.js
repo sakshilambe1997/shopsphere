@@ -4,10 +4,11 @@ import cors from "cors"
 import dotenv from "dotenv"
 dotenv.config();
 import { postLogin, postSignup } from "./controllers/user.js"
+import { jwtVerifyMiddleware,checkRoleMiddleware } from "./middlewares/auth.js";
 import {getHealth} from "./controllers/health.js"
 
-import { jwtVerifyMiddleware } from "./middlewares/auth.js";
-import { postProducts } from "./controllers/product.js";
+
+import { postProducts } from "./controllers/product.js"
 
 
 const app =express()
@@ -27,6 +28,15 @@ connectDB()
 app.get("/",getHealth)
 app.post("/signup",postSignup);
 app.post("/login",postLogin)
+app.post("/products",jwtVerifyMiddleware,checkRoleMiddleware, postProducts)
+
+
+app.post("/order",jwtVerifyMiddleware,(req,res)=>{
+    res.json({
+        success:true,
+        message:"order sucessfully"
+    })
+})
 
 // Auth
 app.use("*",(req,res)=>{
@@ -39,7 +49,7 @@ app.use("*",(req,res)=>{
 
 //products
 
-app.post("/products",postProducts)
+
 
 const PORT = process.env.PORT || 5000;
 

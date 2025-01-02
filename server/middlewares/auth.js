@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken"
 const jwtVerifyMiddleware= async(req,res,next)=>{
-    const jwtToken =req.headers.suthorization.split(" ")[1];
+    const jwtToken =req.headers?.authorization?.split(" ")[1];
 
     if(!jwtToken){
         return res.status(401).json({
@@ -23,7 +23,20 @@ const jwtVerifyMiddleware= async(req,res,next)=>{
     }
 }
 
+const checkRoleMiddleware= async(req,res,next)=>{
+
+    const userRole=req?.user?.role;
+
+    console.log("User Role:",userRole)
+
+    console.log(req.user);
+
+    
+    next();
+}
+
 
 export{
-    jwtVerifyMiddleware
+    jwtVerifyMiddleware,
+    checkRoleMiddleware
 }
