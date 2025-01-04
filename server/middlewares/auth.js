@@ -23,6 +23,26 @@ const jwtVerifyMiddleware= async(req,res,next)=>{
     }
 }
 
+const checkRoleMiddleware= async(req,res,next)=>{
+
+    const userRole = req?.user?.role;
+    const method =req.method;
+    const path =req.path;
+
+    // console.log("User Role :" ,userRole)
+    // console.log("Method :" ,method)
+    // console.log("Path :" ,path)
+    
+  if(method ==="POST" && path==="/products" && userRole!=="admin"){
+    return res.status(403).json({
+        success:false,
+        message:"You are not authorized to perform this action"
+    })
+
+  }
+    next();
+}
+
 
 export{
     jwtVerifyMiddleware,
