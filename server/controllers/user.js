@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken"
 
 
 const postSignup = async (req, res) => {
-  const { name, email, phone, address, password, rePassword } = req.body;
+  const { name, email, phone, address,password, rePassword } = req.body;
 
   if (password !== rePassword) {
     return res.status(400).json({
@@ -96,7 +96,7 @@ const postLogin =async (req,res)=>{
   const isPasswordMatch = bcrypt.compareSync(password,user.password)
 
   if(isPasswordMatch){
-    const jwtToken= jwt.sign({email:user.email},process.env.JWT_SECRET);
+    const jwtToken= jwt.sign({email:user.email ,role:user.role ,_id:user._id},process.env.JWT_SECRET);
     
     res.setHeader("Authorization",`Bearer ${jwtToken}`)
     return res.json({

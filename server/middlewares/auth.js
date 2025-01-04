@@ -23,18 +23,6 @@ const jwtVerifyMiddleware= async(req,res,next)=>{
     }
 }
 
-const checkRoleMiddleware= async(req,res,next)=>{
-
-    const userRole=req?.user?.role;
-
-    console.log("User Role:",userRole)
-
-    console.log(req.user);
-
-    
-    next();
-}
-
 
 export{
     jwtVerifyMiddleware,
