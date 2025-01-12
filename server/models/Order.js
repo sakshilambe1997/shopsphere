@@ -1,3 +1,4 @@
+
 import { Schema,model } from "mongoose";
 
 const orderSchema= new Schema({
@@ -6,11 +7,10 @@ const orderSchema= new Schema({
        ref:"User"
     },
 
-    products:{
+    products: [{
         productId:{
             type:Schema.Types.ObjectId,
-            ref:"Product",
-            required:true,
+            ref:"Product"
         },
 
         quantity:{
@@ -20,8 +20,9 @@ const orderSchema= new Schema({
         price:{
             type:Number,
             required:true
+         
         }
-    },
+    }],
     totalBill:{
         type:Number,
         required:true
@@ -40,16 +41,14 @@ const orderSchema= new Schema({
     paymentId:{
         type:Schema.Types.ObjectId,
         ref:"Payment",
-        required:true
     },
     status:{
         type:String,
-        required:true
+        default:"pending"
     },
     timeline:{
         status:{
             type:String,
-            required:true
         },
         date:{
             type:Date,
