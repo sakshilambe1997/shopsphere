@@ -8,14 +8,11 @@ import { jwtVerifyMiddleware,checkRoleMiddleware } from "./middlewares/auth.js";
 import {getHealth} from "./controllers/health.js"
 import jwt from "jsonwebtoken"
 import { postProducts ,getProducts} from "./controllers/product.js"
-
-
+import { postOrders } from "./controllers/order.js";
 
 const app =express()
 app.use(express.json());
 app.use(cors());
-
-
 
 const connectDB = async()=>{
     const conn = await mongoose.connect(process.env.MONGODB_URL);
@@ -30,6 +27,7 @@ app.post("/signup",postSignup);
 app.post("/login",postLogin)
 app.post("/products",jwtVerifyMiddleware,checkRoleMiddleware, postProducts)
 app.get("/products",getProducts)
+app.post("/orders",jwtVerifyMiddleware,postOrders)
 
 app.get("/test",(req,res)=>{
 
