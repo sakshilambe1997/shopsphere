@@ -60,8 +60,26 @@ const postProducts = async (req, res) => {
 
 const getProducts =async(req,res)=>{
 
-    const limit = req.query;
-   const allProducts = await Product.find({}).limit(parseInt(limit) || 10);
+    const {limit,search} = req.query;
+   const allProducts = await Product.find({
+
+    name:{
+        $regex: new RegExp(search || ""),
+        $options:"i"
+    },
+
+    shortDescription:{
+         $regex: new RegExp(search || ""),
+        $options:"i"
+    },
+
+    longDescription:{
+         $regex: new RegExp(search || ""),
+        $options:"i"
+    }
+
+
+   }).limit(parseInt(limit) || 10);
 
    res.json({
     success:true,
