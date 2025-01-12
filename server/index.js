@@ -7,9 +7,7 @@ import { postLogin, postSignup } from "./controllers/user.js"
 import { jwtVerifyMiddleware,checkRoleMiddleware } from "./middlewares/auth.js";
 import {getHealth} from "./controllers/health.js"
 import jwt from "jsonwebtoken"
-
-
-import { postProducts } from "./controllers/product.js"
+import { postProducts ,getProducts} from "./controllers/product.js"
 
 
 
@@ -31,6 +29,7 @@ app.get("/",getHealth)
 app.post("/signup",postSignup);
 app.post("/login",postLogin)
 app.post("/products",jwtVerifyMiddleware,checkRoleMiddleware, postProducts)
+app.get("/products",getProducts)
 
 app.get("/test",(req,res)=>{
 
