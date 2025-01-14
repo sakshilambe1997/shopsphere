@@ -58,10 +58,11 @@ const putOrder = async (req,res)=>{
   const user= req.user;
   console.log(req.user)
 
-  const {id}= req.params
+  const {id}= req.params;
     
   let order;
   try{
+
     order = await Order.findById(id);
 
     if(!order){
@@ -79,18 +80,14 @@ const putOrder = async (req,res)=>{
     })
   }
 
-  if(user.role="user" && order.userId!= user.id){
-     return res.status(401).json({
-      sucess:false,
-      message:"you are not authorized to update this order"
-     })
-  }
+ 
 
   // user can cancelled the order if it is not deliverd.
 
   if(user.role=="user"){
+
     if(order.status=="deliverd"){
-      return res.status().json({
+      return res.status(400).json({
         sucess:false,
         message:"Order has already been deliverd"
       })
@@ -107,8 +104,8 @@ const putOrder = async (req,res)=>{
   }
 
   if(user.role=="admin"){
-    order.status=req.body.status;
-    order.timeline=req.body.timeline;
+    order.status= req.body.status;
+    order.timeline = req.body.timeline;
   }
 
   await order.save();
@@ -126,3 +123,5 @@ const putOrder = async (req,res)=>{
 export{postOrders,
   putOrder
 }
+
+

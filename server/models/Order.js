@@ -46,20 +46,25 @@ const orderSchema= new Schema({
         type:String,
         default:"pending"
     },
-    timeline:{
-        status:{
-            type:String,
+    timeline: [
+        {
+          status: {
+            type: String,
+            required: true,
+          },
+          date: {
+            type: Date,
+            default: Date.now,
+          },
         },
-        date:{
-            type:Date,
-            default:Date.now
-
-        }
+      ],
+    },
+    {
+      timestamps: true,
     }
-    
-},{
-    timestamps:true
-})
+  );
+  
+        
 
 const Order = model("Order",orderSchema)
 export default Order
