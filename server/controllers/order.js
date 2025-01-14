@@ -55,15 +55,17 @@ const postOrders = async(req,res)=>{
 
 
 const putOrder = async (req,res)=>{
+  const user= req.user;
   console.log(req.user)
 
   const {id}= req.params
-
+    
+  let order;
   try{
-    const order = await Order.findById(id);
+    order = await Order.findById(id);
 
     if(!order){
-      return res.json({
+      return res.status(400).json({
         sucess:false,
         message:"Order not found"
       })
@@ -71,15 +73,53 @@ const putOrder = async (req,res)=>{
   }
 
   catch(e){
-    return res.json({
+    return res.status(400).json({
       sucess:false,
       message:e.message
     })
   }
 
+  if(user.role="user" && order.userId!= user.id){
+     return res.status(401).json({
+      sucess:false,
+      message:"you are not authorized to update this order"
+     })
+  }
+
+  // user can cancelled the order if it is not deliverd.
+
+  if(user.role=="user"){
+    if(order.status=="deliverd"){
+      return res.status().json({
+        sucess:false,
+        message:"Order has already been deliverd"
+      })
+    }
+
+    if(req.body.status=="cancelled"){
+      order.status="Cancelled";
+    }
+
+  }
+
+  if(req.body.phone){
+    order.phone=req.body.phone;
+  }
+
+  if(user.role=="admin"){
+    order.status=req.body.status;
+    order.timeline=req.body.timeline;
+  }
+
+  await order.save();
+
+  const updateOrder= await Order.findById(id);
+
+
    res.json({
     sucess:true,
-    message:"Order updated sucessfully"
+    message:"Order updated sucessfully",
+    data:updateOrder
   })
 }
 
