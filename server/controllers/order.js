@@ -53,4 +53,36 @@ const postOrders = async(req,res)=>{
 
     }
 
-export{postOrders}
+
+const putOrder = async (req,res)=>{
+  console.log(req.user)
+
+  const {id}= req.params
+
+  try{
+    const order = await Order.findById(id);
+
+    if(!order){
+      return res.json({
+        sucess:false,
+        message:"Order not found"
+      })
+    }
+  }
+
+  catch(e){
+    return res.json({
+      sucess:false,
+      message:e.message
+    })
+  }
+
+   res.json({
+    sucess:true,
+    message:"Order updated sucessfully"
+  })
+}
+
+export{postOrders,
+  putOrder
+}
