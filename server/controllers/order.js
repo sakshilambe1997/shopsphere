@@ -61,6 +61,7 @@ const putOrder = async (req,res)=>{
   const {id}= req.params;
     
   let order;
+  
   try{
 
     order = await Order.findById(id);
@@ -80,7 +81,14 @@ const putOrder = async (req,res)=>{
     })
   }
 
- 
+  // user can update his own order
+  if(user.role==user && order.id!=user.id){
+    return res.status(400).json({
+      sucess:false,
+      message:"you are not authorized to update this order"
+
+    })
+  }
 
   // user can cancelled the order if it is not deliverd.
 
@@ -101,6 +109,10 @@ const putOrder = async (req,res)=>{
 
   if(req.body.phone){
     order.phone=req.body.phone;
+  }
+
+  if(req.body.deliveryAddress){
+    order.deliveryAddress =req.body.deliveryAddress;
   }
 
   if(user.role=="admin"){
