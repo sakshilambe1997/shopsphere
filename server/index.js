@@ -9,6 +9,7 @@ import {getHealth} from "./controllers/health.js"
 import jwt from "jsonwebtoken"
 import { postProducts ,getProducts} from "./controllers/product.js"
 import { postOrders ,putOrder} from "./controllers/order.js";
+import { postPayments } from "./controllers/payment.js";
 
 const app =express()
 app.use(express.json());
@@ -29,6 +30,8 @@ app.post("/products",jwtVerifyMiddleware,checkRoleMiddleware, postProducts)
 app.get("/products",getProducts)
 app.post("/orders",jwtVerifyMiddleware,postOrders)
 app.put("/orders/:id",jwtVerifyMiddleware,putOrder)
+
+app.post("/payments",jwtVerifyMiddleware,postPayments)
 
 app.get("/test",(req,res)=>{
 
@@ -64,14 +67,6 @@ app.get("/test",(req,res)=>{
 
 })
 
-
-
-// app.post("/order",jwtVerifyMiddleware,(req,res)=>{
-//     res.json({
-//         success:true,
-//         message:"order sucessfully"
-//     })
-// })
 
 // Auth
 app.use("*",(req,res)=>{
