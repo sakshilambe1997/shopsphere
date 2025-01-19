@@ -169,9 +169,30 @@ const getOrderById= async(req,res)=>{
 
 }
 
+const getOrderByUserId= async(req,res)=>{
+  const user =req.user;
+  const {id}= req.params;
+
+   if(user.role!="admin" && user.id!=id){
+    return res.status(401).json({
+      sucess:false,
+      message:"You are not authirized to view this orders"
+    })
+  }
+
+  const orders = await Order.find({userId : id}).populate("userId","name email").populate("products.productId", "-shortDescription -longDescription -image -category -tags -_v -createdAt -updatedAt").populate("paymentId","-_v createdAt -updatedAt")
+
+  return res.json({
+    sucess:true,
+    message:"Order fetched succesfully!",
+    data:orders
+  })
+}
+
 export{postOrders,
   putOrder,
-  getOrderById
+  getOrderById,
+  getOrderByUserId
 }
 
 
