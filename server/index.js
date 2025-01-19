@@ -8,7 +8,7 @@ import { jwtVerifyMiddleware,checkRoleMiddleware } from "./middlewares/auth.js";
 import {getHealth} from "./controllers/health.js"
 import jwt from "jsonwebtoken"
 import { postProducts ,getProducts} from "./controllers/product.js"
-import { postOrders ,putOrder} from "./controllers/order.js";
+import { postOrders ,putOrder,getOrderById} from "./controllers/order.js";
 import { postPayments } from "./controllers/payment.js";
 
 const app =express()
@@ -26,11 +26,18 @@ connectDB()
 app.get("/",getHealth)
 app.post("/signup",postSignup);
 app.post("/login",postLogin)
+
+//products
 app.post("/products",jwtVerifyMiddleware,checkRoleMiddleware, postProducts)
 app.get("/products",getProducts)
+
+//orders
 app.post("/orders",jwtVerifyMiddleware,postOrders)
 app.put("/orders/:id",jwtVerifyMiddleware,putOrder)
+app.get("/orders/:id",jwtVerifyMiddleware,getOrderById)
 
+
+//Payments
 app.post("/payments",jwtVerifyMiddleware,postPayments)
 
 app.get("/test",(req,res)=>{
@@ -77,7 +84,7 @@ app.use("*",(req,res)=>{
     })
 })
 
-//products
+
 
 
 

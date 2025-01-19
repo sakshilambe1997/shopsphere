@@ -66,8 +66,6 @@ const postPayments =async(req,res)=>{
             success:false,
             message:e.message
         })
-
-
     }
 
 }

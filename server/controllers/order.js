@@ -53,7 +53,6 @@ const postOrders = async(req,res)=>{
 
     }
 
-
 const putOrder = async (req,res)=>{
   const user= req.user;
   console.log(req.user)
@@ -132,8 +131,47 @@ const putOrder = async (req,res)=>{
   })
 }
 
+const getOrderById= async(req,res)=>{
+  const user = req.user;
+  const {id} = req.params;
+
+  let order;
+
+  try{
+    order = await Order.findById(id).populate("userId","name email").populate("products.productId", "-shortDescription -longDescription -image -category -tags -_v -createdAt -updatedAt").populate("paymentId","-_v createdAt -updatedAt")
+
+    if(!order){
+      return res.status(404).json({
+        sucess:false,
+        message:"Order not found"
+      });
+
+    }
+  }
+  catch(e){
+        return res.status(400).json({
+          sucess:false,
+          message:e.message
+        })
+  }
+
+  if(user.id!=order.userId && user.role!="admin"){
+    return res.status(401).json({
+      sucess:false,
+      message:"You are not authorized to view this order"
+    })
+  }
+  return res.json({
+    sucess:true,
+    message:"Order fetched sucessfully!",
+    data:order
+  })
+
+}
+
 export{postOrders,
-  putOrder
+  putOrder,
+  getOrderById
 }
 
 
