@@ -4,7 +4,7 @@ import Payment from "../models/Payment.js";
 
 const postPayments =async(req,res)=>{
 
-    const{orderId,amount,paymentMode,status,transactionId}=
+    const { orderId,amount,paymentMode,status,transactionId}=
     req.body;
 
     let order;
@@ -28,10 +28,10 @@ const postPayments =async(req,res)=>{
         })
     }
 
-    if(order.status=="delivered" || order.status=="cancelled"){
+    if(["delivered" ,"cancelled"].includes(order.status.toLowerCase())){
        return res.status(400).json({
         success:false,
-        message:"This order has already been delivered or cancelled"
+        message:`This order has already been ${order.status}`
        })
     }
 
@@ -53,6 +53,12 @@ const postPayments =async(req,res)=>{
         })
 
         await order.save();
+
+        return res.json({
+            success:true,
+            message:"Payment Successful",
+            data:savedPayment
+         })
         }
 
     catch(e){
