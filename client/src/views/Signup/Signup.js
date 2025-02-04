@@ -3,6 +3,7 @@ import axios from "axios";
 import SignupImg from "./../img/signup-img/signup.png";
 import { Link } from "react-router-dom";
 import toast,{Toaster} from "react-hot-toast"
+import Button from "./../../components/button/button.js";
 
 function Signup() {
   const [signupData, setSignupData] = useState({
@@ -142,20 +143,16 @@ function Signup() {
           </Link>
         </p>
 
-        <div>
-          <button
-            type="button"
-            onClick={() => {
-              window.location.href = "/";
-            }}
-          >
-            Cancle
-          </button>
-
-          <button type="button" onClick={() => processSignup()}>
-            Signup
-          </button>
+        <div className="flex justify-around mt-3">
+         
+          <Button
+            label="signup"
+            onClick={() => processSignup()}
+            variant={"primary"}
+          />
         </div>
+
+        <Toaster/>
       </div>
 
       {/* bg-[linear-gradient(to_top,_#e6e9f0_0%,_#eef1f5_100%)] white */}
