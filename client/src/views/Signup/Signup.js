@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import SignupImg from "./../img/signup-img/signup.png";
+import Input from "./../../components/input/input.js";
 import { Link } from "react-router-dom";
 import toast,{Toaster} from "react-hot-toast"
 import Button from "./../../components/button/button.js";
@@ -53,17 +54,19 @@ function Signup() {
 
   return (
     <div className="flex flex-row justify-center mt-[50px] p-7">
-      <div className=" w-[350px] h-[400px] bg-[linear-gradient(-225deg,_#5D9FFF_0%,_#B8DCFF_48%,_#6BBBFF_100%)]">
+      <div className=" w-[350px] h-[430px] bg-[linear-gradient(-225deg,_#5D9FFF_0%,_#B8DCFF_48%,_#6BBBFF_100%)]">
         <img
           src={SignupImg}
-          className="w-[300px] h-[300px] block mx-auto mt-10 shadow-xl"
+          className="w-[300px] h-[300px] block mx-auto mt-16 shadow-xl"
         />
       </div>
 
       <div
-        className=" w-[400px] h-[400px] <div
+        className=" w-[400px] h-[430px] <div
      bg-[linear-gradient(109.6deg,_rgba(204,228,247,1)_11.2%,_rgba(237,246,250,1)_100.2%)] px-10 py-5"
       >
+
+        <h2 className="text-center text-xl"><b>Signup</b></h2>
         <input
           type="text"
           placeholder="Name"
@@ -79,7 +82,7 @@ function Signup() {
 
         {/* bg-[radial-gradient(circle_1224px_at_10.6%_8.8%,_rgba(255,255,255,1)_0%,_rgba(153,202,251,1)_100.2%)] */}
 
-        <input
+        <Input
           type="text"
           placeholder="Email"
           value={signupData.email}
@@ -90,7 +93,7 @@ function Signup() {
           className="pt-3 block mx-auto w-full my-3 px-2"
         />
 
-        <input
+        <Input
           type="text"
           placeholder="Phone"
           value={signupData.phone}
@@ -101,7 +104,7 @@ function Signup() {
           className="pt-3 block mx-auto w-full my-3 px-2"
         />
 
-        <input
+        <Input
           type="text"
           placeholder="Address"
           value={signupData.address}
@@ -112,7 +115,7 @@ function Signup() {
           className="pt-3 block mx-auto w-full my-3 px-2"
         />
 
-        <input
+        <Input
           type="text"
           placeholder="Password"
           value={signupData.password}
@@ -123,7 +126,7 @@ function Signup() {
           className="pt-3 block mx-auto w-full my-3 px-2"
         />
 
-        <input
+        <Input
           type="text"
           placeholder="RePassword"
           value={signupData.rePassword}
